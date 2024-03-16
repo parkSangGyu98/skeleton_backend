@@ -5,13 +5,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.study.skeletonPj.api.user.domain.User;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 
 
@@ -19,88 +19,78 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ViewController {
 	
 	@RequestMapping("/")
-	public String root() throws Exception {
-		return "home";
+	public String root(HttpServletRequest request, Model model, @AuthenticationPrincipal User.Veo userInfo, HttpSession session) throws Exception {
+		return home(request, model, userInfo, session);
 	}
 	
 	@RequestMapping("/home")
-	public String home(Model model, @AuthenticationPrincipal User.Veo userInfo) throws Exception {
-	    model.addAttribute("userInfo", userInfo);
-	    return "home";
+	public String home(HttpServletRequest request, Model model, @AuthenticationPrincipal User.Veo userInfo, HttpSession session) throws Exception {
+		return "home/index";
 	}
 	
 	@RequestMapping("/login")
-    public String login() {
-        return "login";
-    }
-    
-	@RequestMapping("/signup")
-    public String signup() {
-        return "signup";
-    }
+	public String login(HttpServletRequest request, Model model, @AuthenticationPrincipal User.Veo userInfo) {
+		String errormsg = (String) request.getSession().getAttribute("errormsg");
+		model.addAttribute("errormsg", errormsg);
+		
+		return "home/login";
+	}
 	
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
-	    new SecurityContextLogoutHandler().logout(request, response,
-	            SecurityContextHolder.getContext().getAuthentication());
-	    return "redirect:/login";
+		new SecurityContextLogoutHandler().logout(request, response,
+				SecurityContextHolder.getContext().getAuthentication());
+		return "redirect:/login";
 	}
 	
-	/* bootstrap test {S} */
-	@RequestMapping("bootstrap/index")
-    public String bootstrapTest() {
-        return "bootstrap/index";
-    }
+	@RequestMapping("/register")
+	public String signup() {
+		return "home/register";
+	}
 	
-	@RequestMapping("bootstrap/charts")
+	@RequestMapping("/charts")
     public String charts() {
-        return "bootstrap/charts";
+        return "home/charts";
     }
 	
-	@RequestMapping("bootstrap/tables")
+	@RequestMapping("/tables")
     public String tables() {
-        return "bootstrap/tables";
+        return "home/tables";
     }
 	
-	@RequestMapping("bootstrap/layout-sidenav-light")
+	@RequestMapping("/layout-sidenav-light")
     public String layoutSidenavLight() {
-        return "bootstrap/layout-sidenav-light";
+        return "home/layout-sidenav-light";
     }
 	
-	@RequestMapping("bootstrap/layout-static")
+	@RequestMapping("/layout-static")
     public String layoutStatic() {
-        return "bootstrap/layout-static";
+        return "home/layout-static";
     }
 	
-	@RequestMapping("bootstrap/login")
-    public String bootstrapLogin() {
-        return "bootstrap/login";
-    }
-	
-	@RequestMapping("bootstrap/password")
+	@RequestMapping("/password")
     public String password() {
-        return "bootstrap/password";
+        return "home/password";
     }
 	
-	@RequestMapping("bootstrap/register")
+	@RequestMapping("/register")
     public String register() {
-        return "bootstrap/register";
+        return "home/register";
     }
 	
-	@RequestMapping("bootstrap/401")
+	@RequestMapping("/401")
     public String error401() {
-        return "bootstrap/error/401";
+        return "home/error/401";
     }
 	
-	@RequestMapping("bootstrap/404")
+	@RequestMapping("/404")
     public String error404() {
-        return "bootstrap/error/404";
+        return "home/error/404";
     }
 	
-	@RequestMapping("bootstrap/500")
+	@RequestMapping("/500")
     public String error500() {
-        return "bootstrap/error/500";
+        return "home/error/500";
     }
 	
-	/* bootstrap test {E} */
 }
