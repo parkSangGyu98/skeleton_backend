@@ -2,7 +2,7 @@
 + backend study
 
 ## 구성
-+ 1인 개발
++ 1인
 
 ## 환경
 + window11
@@ -12,6 +12,7 @@
 + mybatis 3.0.2
 + maven
 + timeleaf
++ swagger
 + start bootstrap
   
 ## 툴
@@ -22,7 +23,7 @@
 + git
 
 ## 구현
++ spring security
 + user REST API
 + board REST API
-+ spring security
-+ dashboard bootstrap
++ dashboard UI/UX
