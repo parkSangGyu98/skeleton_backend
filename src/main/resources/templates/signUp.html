@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>signUp</title>
+</head>
+<body>
+    <h2>signUp</h2>
+    <form action="/user" method="POST">
+        <label for="userId">userId:</label><br>
+        <input type="text" id="userId" name="userId"><br>
+        <label for="userPw">Password:</label><br>
+        <input type="password" id="userPw" name="userPw"><br><br>
+        <button type="submit" class="signUp">signUp</button>
+    </form>
+    <script>
+    $(".signUp").on("click", function(event) {
+		const userId = $("#userId").val();
+		const userPw = $("#userPw").val();
+		var param = {
+				userId : userId,
+				userPw : userPw,
+		}
+		
+		$.ajax({
+			url : "/user",
+			type: 'POST',
+			data: param,
+			success: function(result){
+				console.log("ㅅㅅ");
+			},
+			error:function(){  
+				console.log("ㄴㄴ");
+			}
+		})
+	});
+    </script>
+</body>
+</html>
