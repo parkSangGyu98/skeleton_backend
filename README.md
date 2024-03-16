@@ -7,8 +7,8 @@
 ## 환경
 + window11
 + java 17
-+ mariaDB 10.6.*
 + springboot 3.1.4
++ mariaDB 10.6.*
 + mybatis 3.0.2
 + maven
 + timeleaf
