@@ -1,10 +1,11 @@
 # skeleton project
-+ backend study
++ 백엔드 위주 스터디
 
 ## 구성
 + 1인
 
 ## 환경
+++ backend
 + window11
 + java 17
 + springboot 3.1.4
@@ -13,6 +14,11 @@
 + maven
 + timeleaf
 + swagger
+++ frontend
++ javascript
++ ajax
++ CSS3
++ HTML5
 + start bootstrap
   
 ## 툴
@@ -26,4 +32,5 @@
 + spring security
 + user REST API
 + board REST API
+
 + dashboard UI/UX
