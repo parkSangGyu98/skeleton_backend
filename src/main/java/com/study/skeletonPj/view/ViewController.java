@@ -25,15 +25,24 @@ public class ViewController {
 	
 	@RequestMapping("/home")
 	public String home(HttpServletRequest request, Model model, @AuthenticationPrincipal User.Veo userInfo, HttpSession session) throws Exception {
-		return "home/index";
+		String userId = session.getAttribute("USER_ID").toString();
+		
+		if(userId.equals(null) || userId.equals("")) {
+			System.out.println("USER_ID @@@@@ : " + session.getAttribute("USER_ID"));
+			return "redirect:/login";
+		}
+		System.out.println("USER_ID : " + session.getAttribute("USER_ID"));
+		System.out.println("USER_AUTH : " + session.getAttribute("USER_AUTH"));
+		return "project/index";
 	}
 	
 	@RequestMapping("/login")
-	public String login(HttpServletRequest request, Model model, @AuthenticationPrincipal User.Veo userInfo) {
-		String errormsg = (String) request.getSession().getAttribute("errormsg");
-		model.addAttribute("errormsg", errormsg);
+	public String login(HttpServletRequest request, Model model, @AuthenticationPrincipal User.Veo userInfo, HttpSession session) {
+		session.invalidate();
+		String errorMsg = (String) request.getSession().getAttribute("errorMsg");
+		model.addAttribute("errorMsg", errorMsg);
 		
-		return "home/login";
+		return "project/login";
 	}
 	
 	@RequestMapping("/logout")
@@ -43,54 +52,49 @@ public class ViewController {
 		return "redirect:/login";
 	}
 	
-	@RequestMapping("/register")
+	@RequestMapping("/regist")
 	public String signup() {
-		return "home/register";
+		return "project/regist";
 	}
 	
 	@RequestMapping("/charts")
-    public String charts() {
-        return "home/charts";
-    }
+	public String charts() {
+		return "project/charts";
+	}
 	
 	@RequestMapping("/tables")
-    public String tables() {
-        return "home/tables";
-    }
+	public String tables() {
+		return "project/tables";
+	}
 	
 	@RequestMapping("/layout-sidenav-light")
-    public String layoutSidenavLight() {
-        return "home/layout-sidenav-light";
-    }
+	public String layoutSidenavLight() {
+		return "project/layout-sidenav-light";
+	}
 	
 	@RequestMapping("/layout-static")
-    public String layoutStatic() {
-        return "home/layout-static";
-    }
+	public String layoutStatic() {
+		return "project/layout-static";
+	}
 	
 	@RequestMapping("/password")
-    public String password() {
-        return "home/password";
-    }
-	
-	@RequestMapping("/register")
-    public String register() {
-        return "home/register";
-    }
+	public String password() {
+		return "project/password";
+	}
 	
 	@RequestMapping("/401")
-    public String error401() {
-        return "home/error/401";
-    }
+	public String error401() {
+		return "project/error/401";
+	}
 	
 	@RequestMapping("/404")
-    public String error404() {
-        return "home/error/404";
-    }
+	public String error404() {
+		return "project/error/404";
+	}
 	
 	@RequestMapping("/500")
-    public String error500() {
-        return "home/error/500";
-    }
+	public String error500() {
+		return "project/error/500";
+	}
 	
 }

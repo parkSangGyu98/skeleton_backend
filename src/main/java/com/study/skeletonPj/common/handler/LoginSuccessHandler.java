@@ -9,6 +9,7 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 	private final SessionRegistry sessionRegistry;
@@ -16,10 +17,13 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
 		try {
+			HttpSession session = request.getSession();
+			session.setAttribute("USER_ID", authentication.getName());
+			session.setAttribute("USER_AUTH", authentication.getAuthorities());
+			response.sendRedirect("/home");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		response.sendRedirect("/home");
 	}
 
 	public LoginSuccessHandler(SessionRegistry sessionRegistry) {

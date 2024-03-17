@@ -1,4 +1,4 @@
-package com.study.skeletonPj.common.config;
+package com.study.skeletonPj.common.config.swagger;
 
 import java.util.List;
 

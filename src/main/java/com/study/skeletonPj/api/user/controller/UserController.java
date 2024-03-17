@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.study.skeletonPj.api.user.domain.User;
@@ -25,14 +26,14 @@ import com.study.skeletonPj.common.api.responseEntity.StatusCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "사용자 API", description = "update 2024.03.08")
+@Tag(name = "사용자 API", description = "update 2024.03.17")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@Operation(summary = "사용자 조회", description = "리스트로 응답")
+	@Operation(summary = "사용자 조회 (리스트)", description = "리스트로 응답")
 	@GetMapping
 	public ResponseEntity<Result<?>> getItemList(@ModelAttribute User.Veo user) {
 		List<User.Vo> item = userService.getItemList(user);
@@ -49,6 +50,7 @@ public class UserController {
 	}
 	
 	@Operation(summary = "사용자 생성", description = "객체를 요청")
+	@ResponseBody
 	@PostMapping
 	public ResponseEntity<Result<?>> createItem(@RequestBody User.Veo user) {
 		int cnt = userService.createItem(user);

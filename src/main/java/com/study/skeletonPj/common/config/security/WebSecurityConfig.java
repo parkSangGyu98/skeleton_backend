@@ -25,12 +25,16 @@ public class WebSecurityConfig {
 	private final UserService userService;
 	
 	private static final String[] PERMIT_URL_ARRAY = {
-			"/login", "/signup"
+			"/login", "/signup", "/regist"
 	};
 	
 	private static final String[] ASSET_URL_ARRAY = {
-		"/css/**", "/font/**", "/images/**", "/js/**", "sneat/**", "startbootstrap/**"
+		"/css/**", "/font/**", "/img/**", "/js/**", "startbootstrap/**"
 	};
+	
+	private static final String[] API_URL_ARRAY = {
+			"/api/**",
+		};
 	
 	// 스프링 시큐리티 기능 비활성화
 	@Bean
@@ -64,17 +68,8 @@ public class WebSecurityConfig {
 		http.authorizeHttpRequests(requests ->requests
 				.requestMatchers(PERMIT_URL_ARRAY).permitAll()
 				.requestMatchers(ASSET_URL_ARRAY).permitAll()
-				/*
-				 * .requestMatchers(API_URL_ARRAY).hasAnyAuthority("ADMIN", "IDIGROW",
-				 * "SKETCHBOOK", "ISCREAM")
-				 * .requestMatchers(SWAGGER_URL_ARRAY).hasAnyAuthority("ADMIN")
-				 * .requestMatchers(IDIGROW_URL_ARRAY).hasAnyAuthority("IDIGROW")
-				 * .requestMatchers(SKETCHBOOK_URL_ARRAY).hasAnyAuthority("IDIGROW",
-				 * "SKETCHBOOK") .requestMatchers(ISCREAM_URL_ARRAY).hasAnyAuthority("IDIGROW",
-				 * "ISCREAM") .requestMatchers(IDIGROW2_URL_ARRAY).hasAnyAuthority("IDIGROW",
-				 * "IDIGROW2") .requestMatchers(ADMIN_URL_ARRAY).hasAnyAuthority("ADMIN")
-				 * .requestMatchers(NORMAL_URL_ARRAY).hasAnyAuthority("NORMAL")
-				 */
+				.requestMatchers(API_URL_ARRAY).permitAll()
+				//.requestMatchers(URL_ARRAY).hasAnyAuthority("권한1","권한2", "권한3")
 				.anyRequest().authenticated());
 		
 		// 폼 기반 로그인 설정
@@ -94,8 +89,14 @@ public class WebSecurityConfig {
 		http.sessionManagement(sessionManagement-> sessionManagement
 				.maximumSessions(1)
 				.expiredUrl("/login")
-				.maxSessionsPreventsLogin(false) // 다른곳에서 로그인하면 나머지 세션 없앰
+				.maxSessionsPreventsLogin(true) // 다른곳에서 로그인하면 나머지 세션 없앰
 				.sessionRegistry(sessionRegistry()));
+		
+		/*
+		 * 접근 거부 커스텀 핸들러 처리
+		 * http.exceptionHandling(handling -> handling
+		 * 		.accessDeniedPage(new CustomAccessDeniedHandler()));
+		 */
 		
 		 return http.build();
 	}
