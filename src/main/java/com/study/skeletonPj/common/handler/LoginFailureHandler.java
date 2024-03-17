@@ -24,23 +24,23 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) throws IOException, ServletException {
-//		log.error("로그인 실패");
-//		log.error("===========================================================================================\n");
-		String errormsg = "";
+		log.error("로그인 실패");
+		log.error("===========================================================================================\n");
+		String errorMsg = "";
 
 		if (authenticationException instanceof BadCredentialsException) {
-			errormsg = "입력하신 정보를 찾을 수 없습니다. 확인 후 다시 입력하세요.";
+			errorMsg = "입력하신 정보를 찾을 수 없습니다. 확인 후 다시 입력하세요.";
 		}else if (authenticationException instanceof LockedException) {
-			errormsg = "잠긴 계정입니다. 관리자에게 문의하세요.";
+			errorMsg = "잠긴 계정입니다. 관리자에게 문의하세요.";
 		}else if (authenticationException instanceof DisabledException) {
-			errormsg = "계정정보에 문제가 있습니다. 관리자에게 문의하세요.";
+			errorMsg = "계정정보에 문제가 있습니다. 관리자에게 문의하세요.";
 		}else if (authenticationException instanceof SessionAuthenticationException){
 //			String username = request.getParameter("username");
 //			String password = request.getParameter("password");
-////			String isForceLogin = request.getParameter("isForceLogin");
+//			String isForceLogin = request.getParameter("isForceLogin");
 //
-//			errormsg = "다른 장소에서 로그인 중입니다. 다른곳에 로그인 되어있는 ";
-////			if("true".equals(isForceLogin)) {
+//			errorMsg = "다른 장소에서 로그인 중입니다. 다른곳에 로그인 되어있는 ";
+//			if("true".equals(isForceLogin)) {
 //			if(true) {
 //				MemberMaster.Veo userDetails = memberMasterService.loadUserByUsername(username);
 //				List<SessionInformation> sessions = sessionRegistry.getAllSessions(userDetails, false);
@@ -51,22 +51,22 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 //				Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
 //				SecurityContextHolder.getContext().setAuthentication(authentication);
 //
-//				request.setAttribute("errormsg", errormsg);
+//				request.setAttribute("errorMsg", errorMsg);
 //				request.getRequestDispatcher("/main").forward(request, response);
 //
 //				return;
 //			}
-			errormsg = "계정정보에 문제가 있습니다. 관리자에게 문의하세요.";
+			errorMsg = "계정정보에 문제가 있습니다. 관리자에게 문의하세요.";
 		}else {
 			log.error(authenticationException.toString());
 			log.error("===========================================================================================\n");
 		}
 
 		 // 에러 메시지를 세션에 저장
-        request.getSession().setAttribute("errormsg", errormsg);
+		request.getSession().setAttribute("errorMsg", errorMsg);
 
-        // /login 페이지로 이동
-        response.sendRedirect("/login");
+		//login 페이지로 이동
+		response.sendRedirect("/login");
 
 	}
 
