@@ -64,10 +64,11 @@
             </div>
         </div>
         <script>
-			var errorMessage = '[[${errorMsg}]]';
-			//if(errorMessage != undefined || errorMessage != "" || errorMessage != null){
-			//	alert(errorMessage);
-			//}
+			var errorMessage = '[${errorMsg}]';
+				alert("실패 핸들러부터 여기까지 처리해");
+			if(errorMessage != undefined && errorMessage != "" && errorMessage != null){
+				alert(errorMessage);
+			}
 		</script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 		<script src="../startbootstrap/js/scripts.js"></script>

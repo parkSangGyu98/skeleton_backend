@@ -1,20 +1,22 @@
 package com.study.skeletonPj.common.handler;
 
+import java.io.IOException;
+
+import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
-
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.IOException;
 
 @Slf4j
 public class LoginFailureHandler implements AuthenticationFailureHandler {
@@ -34,6 +36,12 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 			errorMsg = "잠긴 계정입니다. 관리자에게 문의하세요.";
 		}else if (authenticationException instanceof DisabledException) {
 			errorMsg = "계정정보에 문제가 있습니다. 관리자에게 문의하세요.";
+		}else if (authenticationException instanceof UsernameNotFoundException) {
+			errorMsg = "존재하지 않는 회원입니다.";
+		}else if (authenticationException instanceof AccountExpiredException) {
+			errorMsg = "계정이 만료되었습니다. 관리자에게 문의하세요.";
+		}else if (authenticationException instanceof CredentialsExpiredException) {
+			errorMsg = "비밀번호가 만료되었습니다. 관리자에게 문의하세요.";
 		}else if (authenticationException instanceof SessionAuthenticationException){
 //			String username = request.getParameter("username");
 //			String password = request.getParameter("password");
@@ -56,8 +64,9 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 //
 //				return;
 //			}
-			errorMsg = "계정정보에 문제가 있습니다. 관리자에게 문의하세요.";
+			errorMsg = "세션이 만료되었습니다.";
 		}else {
+			errorMsg = "알 수 없는 오류 발생. 관리자에게 문의하세요.";
 			log.error(authenticationException.toString());
 			log.error("===========================================================================================\n");
 		}
