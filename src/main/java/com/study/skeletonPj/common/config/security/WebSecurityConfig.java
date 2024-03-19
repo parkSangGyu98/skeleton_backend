@@ -75,7 +75,7 @@ public class WebSecurityConfig {
 		// 폼 기반 로그인 설정
 		http.formLogin(login ->login 
 				.loginPage("/login") // form 에 있는 POST 매핑 주소
-				.defaultSuccessUrl("/home/index")
+				.defaultSuccessUrl("/home/index") // defaultSuccessUrl 선언 시, successHandler가 안불러와질수도있음 테스트 필요함
 				.successHandler(LoginSuccessHandler())
 				.failureHandler(LoginFailureHandler()));
 		

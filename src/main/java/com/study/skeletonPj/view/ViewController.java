@@ -37,8 +37,7 @@ public class ViewController {
 	}
 	
 	@RequestMapping("/login")
-	public String login(HttpServletRequest request, Model model, @AuthenticationPrincipal User.Veo userInfo, HttpSession session) {
-		session.invalidate();
+	public String login(HttpServletRequest request, Model model, @AuthenticationPrincipal User.Veo userInfo) {
 		String errorMsg = (String) request.getSession().getAttribute("errorMsg");
 		model.addAttribute("errorMsg", errorMsg);
 		
@@ -46,7 +45,8 @@ public class ViewController {
 	}
 	
 	@RequestMapping("/logout")
-	public String logout(HttpServletRequest request, HttpServletResponse response) {
+	public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		session.invalidate();
 		new SecurityContextLogoutHandler().logout(request, response,
 				SecurityContextHolder.getContext().getAuthentication());
 		return "redirect:/login";
