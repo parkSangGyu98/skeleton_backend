@@ -1,5 +1,6 @@
 package com.study.skeletonPj.common.config.security;
 
+import static org.springframework.security.config.Customizer.withDefaults;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -12,8 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.study.skeletonPj.api.user.service.UserService;
-import com.study.skeletonPj.common.handler.LoginFailureHandler;
-import com.study.skeletonPj.common.handler.LoginSuccessHandler;
+import com.study.skeletonPj.common.handler.CustomAccessDeniedHandler;
+import com.study.skeletonPj.common.handler.CustomAuthenticationFailureHandler;
+import com.study.skeletonPj.common.handler.CustomAuthenticationSuccessHandler;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,8 +26,12 @@ public class WebSecurityConfig {
 
 	private final UserService userService;
 	
+	private static final String[] SWAGGER_URL_ARRAY = {
+		"/swagger-ui/**", "/api-docs", "/swagger-ui.html"
+	};
+	
 	private static final String[] PERMIT_URL_ARRAY = {
-			"/login", "/signup", "/regist"
+		"/login", "/signup", "/regist"
 	};
 	
 	private static final String[] ASSET_URL_ARRAY = {
@@ -33,8 +39,8 @@ public class WebSecurityConfig {
 	};
 	
 	private static final String[] API_URL_ARRAY = {
-			"/api/**",
-		};
+		"/api/**",
+	};
 	
 	// 스프링 시큐리티 기능 비활성화
 	@Bean
@@ -44,13 +50,13 @@ public class WebSecurityConfig {
 	}
 	
 	@Bean
-	LoginSuccessHandler LoginSuccessHandler() {
-		return new com.study.skeletonPj.common.handler.LoginSuccessHandler(sessionRegistry());
+	CustomAuthenticationSuccessHandler CustomAuthenticationSuccessHandler() {
+		return new com.study.skeletonPj.common.handler.CustomAuthenticationSuccessHandler(sessionRegistry());
 	}
 
 	@Bean
-	LoginFailureHandler LoginFailureHandler() {
-		return new com.study.skeletonPj.common.handler.LoginFailureHandler(sessionRegistry());
+	CustomAuthenticationFailureHandler CustomAuthenticationFailureHandler() {
+		return new com.study.skeletonPj.common.handler.CustomAuthenticationFailureHandler(sessionRegistry());
 	}
 
 	@Bean
@@ -62,22 +68,25 @@ public class WebSecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		// csrf 보안 설정 비활성화
-		http.csrf(csrf ->csrf.disable()); 
+		//http.csrf(csrf ->csrf.disable());
+		http.csrf(withDefaults());
+
+		http.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"));
 		
 		// 접근 및 권한 처리
 		http.authorizeHttpRequests(requests ->requests
 				.requestMatchers(PERMIT_URL_ARRAY).permitAll()
 				.requestMatchers(ASSET_URL_ARRAY).permitAll()
 				.requestMatchers(API_URL_ARRAY).permitAll()
-				//.requestMatchers(URL_ARRAY).hasAnyAuthority("권한1","권한2", "권한3")
+				.requestMatchers(SWAGGER_URL_ARRAY).hasAnyAuthority("ADMIN")
+				//ex) .requestMatchers(URL_ARRAY).hasAnyAuthority("권한1","권한2", "권한3")
 				.anyRequest().authenticated());
 		
 		// 폼 기반 로그인 설정
 		http.formLogin(login ->login 
 				.loginPage("/login") // form 에 있는 POST 매핑 주소
-				.defaultSuccessUrl("/home/index") // defaultSuccessUrl 선언 시, successHandler가 안불러와질수도있음 테스트 필요함
-				.successHandler(LoginSuccessHandler())
-				.failureHandler(LoginFailureHandler()));
+				.successHandler(CustomAuthenticationSuccessHandler())
+				.failureHandler(CustomAuthenticationFailureHandler()));
 		
 		// 로그아웃 관련 처리
 		http.logout(logout ->logout
@@ -92,13 +101,13 @@ public class WebSecurityConfig {
 				.maxSessionsPreventsLogin(true) // 다른곳에서 로그인하면 나머지 세션 없앰
 				.sessionRegistry(sessionRegistry()));
 		
-		/*
-		 * 접근 거부 커스텀 핸들러 처리
-		 * http.exceptionHandling(handling -> handling
-		 * 		.accessDeniedPage(new CustomAccessDeniedHandler()));
-		 */
 		
-		 return http.build();
+		//접근 거부 커스텀 핸들러 처리
+		http.exceptionHandling(handling -> handling
+				.accessDeniedHandler(new CustomAccessDeniedHandler()));
+		
+		
+		return http.build();
 	}
 	
 	// 인증 관리자 관련 설정
@@ -111,7 +120,7 @@ public class WebSecurityConfig {
 
 		return daoAuthenticationProvider;
 	}
-
+	
 	// 패스워드 인코더로 사용할 빈 등록
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
