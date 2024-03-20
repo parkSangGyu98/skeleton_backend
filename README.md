@@ -1,6 +1,6 @@
 # skeleton project
 + 백엔드 위주 스터디
-
+ 
 ### 구성
 + 1인
 
@@ -11,7 +11,7 @@
 + mariaDB 10.6.*
 + mybatis 3.0.2
 + maven
-+ timeleaf
++ thymeleaf
 + swagger
 + javascript
 + jQuery
