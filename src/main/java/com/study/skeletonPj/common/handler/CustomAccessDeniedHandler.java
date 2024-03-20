@@ -14,5 +14,8 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 		AccessDeniedException accessDeniedException) throws IOException {
 		//커스텀 접근 거부 처리 로직
+		System.out.println("#######################################################################");
+		System.out.println("접근 거부 발생");
+		System.out.println("#######################################################################");
 	}
 }

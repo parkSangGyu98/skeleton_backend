@@ -21,9 +21,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class LoginFailureHandler implements AuthenticationFailureHandler {
+public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
-	public LoginFailureHandler(SessionRegistry sessionRegistry) {
+	public CustomAuthenticationFailureHandler(SessionRegistry sessionRegistry) {
 	}
 
 	@Override

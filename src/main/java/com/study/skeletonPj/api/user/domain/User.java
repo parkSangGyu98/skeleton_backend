@@ -26,6 +26,7 @@ public class User {
 	public static class Veo implements UserDetails {
 		String userId;
 		String userPw;
+		String userAuth;
 		String userName;
 		Integer userAge;
 		Double userMoney;
@@ -35,7 +36,23 @@ public class User {
 		
 		@Override // 권한 반환
 		public Collection<? extends GrantedAuthority> getAuthorities() {
-			return List.of(new SimpleGrantedAuthority("user"));
+			Set<GrantedAuthority> roles = new HashSet<>();
+			
+//			if("admin".equals(getUserId())) {
+//				roles.add(new SimpleGrantedAuthority("ADMIN"));
+//				roles.add(new SimpleGrantedAuthority("USER"));
+//			}else {
+//				roles.add(new SimpleGrantedAuthority("USER"));
+//			}
+//			roles.add(new SimpleGrantedAuthority(this.userAuth));
+			
+			if("ADMIN".equals(getUserAuth())) {
+				roles.add(new SimpleGrantedAuthority("ADMIN"));
+			}else {
+				roles.add(new SimpleGrantedAuthority("USER"));
+			}
+			
+			return roles;
 		}
 
 		// 사용자의 id 반환(고유한 값)

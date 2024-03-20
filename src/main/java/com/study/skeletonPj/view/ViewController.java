@@ -28,11 +28,8 @@ public class ViewController {
 		String userId = session.getAttribute("USER_ID").toString();
 		
 		if(userId.equals(null) || userId.equals("")) {
-			System.out.println("USER_ID @@@@@ : " + session.getAttribute("USER_ID"));
 			return "redirect:/login";
 		}
-		System.out.println("USER_ID : " + session.getAttribute("USER_ID"));
-		System.out.println("USER_AUTH : " + session.getAttribute("USER_AUTH"));
 		return "project/index";
 	}
 	
@@ -42,14 +39,6 @@ public class ViewController {
 		model.addAttribute("errorMsg", errorMsg);
 		
 		return "project/login";
-	}
-	
-	@RequestMapping("/logout")
-	public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		session.invalidate();
-		new SecurityContextLogoutHandler().logout(request, response,
-				SecurityContextHolder.getContext().getAuthentication());
-		return "redirect:/login";
 	}
 	
 	@RequestMapping("/regist")

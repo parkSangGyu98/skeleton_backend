@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 	private final SessionRegistry sessionRegistry;
 
 	@Override
@@ -19,14 +19,15 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 		try {
 			HttpSession session = request.getSession();
 			session.setAttribute("USER_ID", authentication.getName());
-			session.setAttribute("USER_AUTH", authentication.getAuthorities());
+			//session.setAttribute("USER_AUTH", authentication.getAuthorities());
+			System.out.println("test : " + authentication.getAuthorities());
 			response.sendRedirect("/home");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public LoginSuccessHandler(SessionRegistry sessionRegistry) {
+	public CustomAuthenticationSuccessHandler(SessionRegistry sessionRegistry) {
 		this.sessionRegistry = sessionRegistry;
 	}
 }
