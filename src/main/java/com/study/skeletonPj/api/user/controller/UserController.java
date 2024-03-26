@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -58,6 +59,7 @@ public class UserController {
 		return new ResponseEntity<>(Result.res(StatusCode.CREATED, ResponseMessage.CREATED_DATA, cnt), HttpStatus.OK);
 	}
 	
+	//@PreAuthorize("hasAuthority('ADMIN')")
 	@Operation(summary = "사용자 삭제", description = "문자열을 요청")
 	@DeleteMapping("/{userId}")
 	public ResponseEntity<Result<?>> deleteItem(@PathVariable String userId) {

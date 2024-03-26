@@ -79,7 +79,6 @@ public class WebSecurityConfig {
 				.requestMatchers(ASSET_URL_ARRAY).permitAll()
 				.requestMatchers(API_URL_ARRAY).permitAll()
 				.requestMatchers(SWAGGER_URL_ARRAY).hasAnyAuthority("ADMIN")
-				//ex) .requestMatchers(URL_ARRAY).hasAnyAuthority("권한1","권한2", "권한3")
 				.anyRequest().authenticated());
 		
 		// 폼 기반 로그인 설정

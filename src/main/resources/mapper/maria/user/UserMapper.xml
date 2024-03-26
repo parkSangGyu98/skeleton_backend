@@ -6,6 +6,7 @@
 		SELECT
 			USER_ID
 			,USER_PW
+			,USER_AUTH
 			,USER_NAME
 			,USER_AGE
 			,USER_MONEY
@@ -22,6 +23,7 @@
 		SELECT
 			USER_ID
 			,USER_PW
+			,USER_AUTH
 			,USER_NAME
 			,USER_AGE
 			,USER_MONEY
