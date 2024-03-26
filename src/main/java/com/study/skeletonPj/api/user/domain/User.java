@@ -36,15 +36,7 @@ public class User {
 		
 		@Override // 권한 반환
 		public Collection<? extends GrantedAuthority> getAuthorities() {
-			Set<GrantedAuthority> roles = new HashSet<>();
-			
-//			if("admin".equals(getUserId())) {
-//				roles.add(new SimpleGrantedAuthority("ADMIN"));
-//				roles.add(new SimpleGrantedAuthority("USER"));
-//			}else {
-//				roles.add(new SimpleGrantedAuthority("USER"));
-//			}
-//			roles.add(new SimpleGrantedAuthority(this.userAuth));
+			Collection<GrantedAuthority> roles = new ArrayList<>();
 			
 			if("ADMIN".equals(getUserAuth())) {
 				roles.add(new SimpleGrantedAuthority("ADMIN"));

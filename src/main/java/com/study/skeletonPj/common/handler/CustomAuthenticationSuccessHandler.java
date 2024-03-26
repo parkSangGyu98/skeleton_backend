@@ -20,7 +20,6 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 			HttpSession session = request.getSession();
 			session.setAttribute("USER_ID", authentication.getName());
 			//session.setAttribute("USER_AUTH", authentication.getAuthorities());
-			System.out.println("test : " + authentication.getAuthorities());
 			response.sendRedirect("/home");
 		} catch (Exception e) {
 			e.printStackTrace();
