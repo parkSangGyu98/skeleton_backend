@@ -28,8 +28,14 @@
 + git
 
 ### 구현
-+ spring security
++ 스프링 시큐리티
++ 권한 처리
++ 스웨거
++ 핸들러 (로그인 성공, 실패, 접근거부)
++ exception 처리
++ ajax 비동기 데이터 통신
 + user REST API
 + board REST API
 
++ 타임리프
 + dashboard UI/UX
