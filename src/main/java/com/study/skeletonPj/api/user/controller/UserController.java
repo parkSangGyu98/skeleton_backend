@@ -27,7 +27,7 @@ import com.study.skeletonPj.common.api.responseEntity.StatusCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "사용자 API", description = "update 2024.03.17")
+@Tag(name = "사용자 API", description = "update 2024.03.27")
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
